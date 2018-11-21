@@ -1,0 +1,16 @@
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+zone "tfg.local" {
+    type master;
+    file "/etc/bind/db.tfg.local";
+};
+//zone "122.168.192.in-addr.arpa" {
+zone "2.1.10.in-addr.arpa" { //Tengo que poner la ip de los servidores lb, no el dns!!!!
+    type master;
+    file "/etc/bind/db.10";
+};

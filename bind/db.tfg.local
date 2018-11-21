@@ -1,0 +1,33 @@
+;
+; BIND data file for local loopback interface
+;
+$TTL	604800
+@	IN	SOA	vnxlab.tfg.local. root.tfg.local. (
+			      2		; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			 604800 )	; Negative Cache TTL
+;
+@   IN  NS  vnxlab.tfg.local
+;tfg.local.	IN	NS	vnxlab.tfg.local.
+;tfg.local.  IN  A   10.1.1.2
+;tfg.local.  IN  A   127.0.0.1
+@	IN	A	127.0.0.1
+@	IN	AAAA	::1
+
+;Below are A record address
+
+;vnxlab IN  A   10.1.1.2
+lb IN  A   10.1.2.2
+;vnxlab IN  A   127.0.0.1
+;lb1 IN  A   10.250.0.14
+;lb1 IN  A   192.168.122.53
+;lb2 IN  A   192.168.122.100 ;Inventada, no se cual seria
+
+;Below are CNAME Record Address
+
+;www IN  CNAME   tfg.local.
+;lb IN  CNAME   lb.tfg.local
+;lb1 IN  CNAME   lb1.tfg.local
+;lb2 IN  CNAME   lb1.tfg.local

@@ -1,0 +1,16 @@
+;
+; BIND reverse data file for local loopback interface
+;
+$TTL	604800
+@	IN	SOA	vnxlab.tfg.local. root.tfg.local. (
+			      1		; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			 604800 )	; Negative Cache TTL
+;
+@	IN	NS	vnxlab.
+;2.1 IN  PTR vnxlab.tfg.local
+2   IN  PTR lb.tfg.local
+;14   IN  PTR lb1.tfg.local
+;100   IN  PTR lb2.tfg.local
