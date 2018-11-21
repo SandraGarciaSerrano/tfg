@@ -1,0 +1,70 @@
+- name: Actualiza cache
+  apt:
+      update_cache: yes
+  tags: config_crm_s2s3
+
+- name: Añadir apt key
+  apt_key:
+      url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+  tags: config_crm_s2s3
+
+- name: Añadir repositorio
+  shell: |
+      echo "deb https://deb.nodesource.com/node_9.x bionic main" >> /etc/apt/sources.list.d/nodesource.list
+  tags: config_crm_s2s3
+
+- name: Añadir repositorio
+  shell: |
+      echo "deb-src https://deb.nodesource.com/node_9.x bionic main" >> /etc/apt/sources.list.d/nodesource.list
+  tags: config_crm_s2s3
+
+- name: Actualiza cache
+  apt:
+      update_cache: yes
+  tags: config_crm_s2s3
+
+- name: Instala nodejs
+  apt:
+      name: nodejs
+  tags: config_crm_s2s3
+
+- name: Exportar la variable de entorno
+#  shell: |
+#      echo "export DATABASE_URL=postgres://crm:xxxx@10.1.4.31:5432/crm" >> /etc/environment
+  template:
+      src: database_url.sh.j2
+      dest: /etc/profile.d/database_url.sh
+      mode: 0644
+  tags: config_crm_s2s3
+
+- name: Clonar proyecto
+  git:
+      repo: https://github.com/CORE-UPM/CRM_2017
+      dest: /root/CRM_2017
+  tags: config_crm_s2s3
+
+- name: Crear carpeta de almacenamiento
+  file:
+      path: /root/CRM_2017/public/uploads
+      state: directory
+  tags: config_crm_s2s3
+
+- name: Montar la carpeta
+  mount:
+      path: /root/CRM_2017/public/uploads
+      src: 10.1.4.21:/nas
+      fstype: glusterfs
+      state: mounted
+  tags: config_crm_s2s3
+
+- name: Instalar dependencias
+  command: chdir=/root/CRM_2017 npm install
+  tags: config_crm_s2s3
+
+- name: Instalar forever
+  command: chdir=/root/CRM_2017 npm install forever
+  tags: config_crm_s2s3
+
+- name: Lanzar la aplicación
+  command: chdir=/root/CRM_2017 ./node_modules/forever/bin/forever start ./bin/www
+  tags: config_crm_s2s3

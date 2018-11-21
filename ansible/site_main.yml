@@ -1,0 +1,12 @@
+---
+
+- hosts: all
+
+  roles:
+      - { role: start_scenary, tags: ['config_sce'] }
+      - { role: bbdd_conf, tags: ['config_bbdd'] }
+      - { role: gluster_conf, tags: ['config_glust'] }
+      - { role: crm_conf, tags: ['config_crm'] }
+      - { role: crm_conf_s2s3, tags: ['config_crm_s2s3'] }
+      - { role: lb_conf, tags: ['config_lb'] }
+      - { role: fw_conf, tags: ['config_fw'] }

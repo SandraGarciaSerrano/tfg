@@ -1,0 +1,8 @@
+---
+- name: Transferir archivo
+  copy: src=/etc/ansible/roles/fw_conf/files/ dest=/root/ owner=root group=root mode=755
+  tags: config_fw 
+
+- name: Ejecutar archivo
+  command: /root/fw.fw
+  tags: config_fw

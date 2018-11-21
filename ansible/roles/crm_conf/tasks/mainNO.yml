@@ -1,0 +1,78 @@
+- name: Actualiza cache
+  apt:
+      update_cache: yes
+  tags: config_crm
+
+- name: Añadir apt key
+  apt_key:
+      url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+  tags: config_crm
+
+- name: Añadir repositorio
+  shell: |
+      echo "deb https://deb.nodesource.com/node_9.x bionic main" >> /etc/apt/sources.list.d/nodesource.list
+  tags: config_crm
+
+- name: Añadir repositorio
+  shell: |
+      echo "deb-src https://deb.nodesource.com/node_9.x bionic main" >> /etc/apt/sources.list.d/nodesource.list
+  tags: config_crm
+
+- name: Actualiza cache
+  apt:
+      update_cache: yes
+  tags: config_crm
+
+- name: Instala nodejs
+  apt:
+      name: nodejs
+  tags: config_crm
+
+- name: Exportar la variable de entorno
+  shell: |
+      echo "export DATABASE_URL=postgres://crm:xxxx@10.1.4.31:5432/crm" >> /etc/environment
+  tags: config_crm
+
+- name: Source bashrc file
+  shell: /etc/profile.d/database_url.sh 
+  tags: config_crm
+
+- name: Clonar proyecto
+  git:
+      repo: https://github.com/CORE-UPM/CRM_2017
+      dest: /root/CRM_2017
+  tags: config_crm
+
+- name: Crear carpeta de almacenamiento
+  file:
+      path: /root/CRM_2017/public/uploads
+      state: directory
+  tags: config_crm
+
+- name: Montar la carpeta
+  mount:
+      path: /root/CRM_2017/public/uploads
+      src: 10.1.4.21:/nas
+      fstype: glusterfs
+      state: mounted
+  tags: config_crm
+
+- name: Instalar dependencias
+  command: chdir=/root/CRM_2017 npm install
+  tags: config_crm
+
+- name: Instalar forever
+  command: chdir=/root/CRM_2017 npm install forever
+  tags: config_crm
+
+- name: Aplicar las migraciones
+  command: chdir=/root/CRM_2017 npm run-script migrate_local
+  tags: config_crm
+
+- name: Ejecutar los seeders
+  command: chdir=/root/CRM_2017 npm run-script seed_local
+  tags: config_crm
+
+- name: Lanzar la aplicación
+  command: chdir=/root/CRM_2017 ./node_modules/forever/bin/forever start ./bin/www
+  tags: config_crm

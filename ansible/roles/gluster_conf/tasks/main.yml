@@ -1,0 +1,28 @@
+---
+- name: Añadir servidores al grupo de almacenamiento
+  shell: "gluster peer probe {{ item }}"
+  with_items:
+      - 10.1.4.21
+      - 10.1.4.22
+      - 10.1.4.23
+  tags: config_glust
+
+- name: Verificar el estado del cluster
+  command: gluster peer status
+  tags: config_glust
+
+- name: Crear volumen de almacenamiento
+  command: gluster volume create nas replica 3 10.1.4.21:/nas/brick 10.1.4.22:/nas/brick 10.1.4.23:/nas/brick force
+  tags: config_glust
+
+- name: Arrancar el cluster
+  command: gluster volume start nas
+  tags: config_glust
+
+- name: Comprobar estado del cluster
+  command: gluster volume info
+  tags: config_glust
+
+- name: Aumentar valor de timeout
+  command: gluster volume set nas network.ping-timeout 5
+  tags: config_glust

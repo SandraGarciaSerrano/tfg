@@ -1,0 +1,11 @@
+- hosts: vnxlab
+  connection: local
+  become: yes
+
+  tasks:
+      - name: Destruir el escenario
+        command: vnx -f /home/upm/pfinal/pfinal.xml --destroy
+
+      - name: Crear el escenario
+        command: vnx -f /home/upm/pfinal/pfinal.xml --create
+         

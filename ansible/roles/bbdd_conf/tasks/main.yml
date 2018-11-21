@@ -1,0 +1,61 @@
+- name: Actualiza cache
+  apt:
+      update_cache: yes
+  tags: config_bbdd
+
+- name: Instala postgres
+  apt:
+      name: postgresql
+  tags: config_bbdd
+
+- name: Iniciar el cluster
+  service:
+      name: postgresql@10-main
+      state: started
+  tags: config_bbdd
+
+- name: Instala modulo psycopg2
+  apt:
+      name: python-psycopg2
+  tags: config_bbdd
+
+- name: Configuración IP de la máquina en Postgres
+  shell: |
+      echo "listen_addresses = '10.1.4.31'" >> /etc/postgresql/10/main/postgresql.conf
+  tags: config_bbdd
+
+- name: Configuración del acceso a todas las maquinas de la subred
+  shell: |
+      echo "host all all 10.1.4.0/24 trust" >> /etc/postgresql/10/main/pg_hba.conf
+  tags: config_bbdd
+
+- name: Añadir un usuario a la bbdd con su contraseña
+  postgresql_user:
+      name: crm
+      password: 'xxxx'
+  become: yes
+  become_user: postgres
+  tags: config_bbdd
+
+- name: Crear una bbdd
+  postgresql_db:
+      name: crm
+  become: yes
+  become_user: postgres
+  tags: config_bbdd
+
+- name: Dar privilegios al usuario en la bbdd creada
+  postgresql_privs:
+      db: crm
+      privs: ALL
+      type: database
+      role: crm
+  become: yes
+  become_user: postgres
+  tags: config_bbdd
+
+- name: Reiniciar postgres
+  service:
+      name: postgresql
+      state: restarted
+  tags: config_bbdd

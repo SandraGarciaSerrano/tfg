@@ -1,0 +1,64 @@
+---
+- hosts: s1
+  become: true
+
+  tasks:
+      - name: Actualiza cache
+        apt:
+            update_cache: yes
+
+      - name: Añadir apt key
+        apt_key:
+            url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+
+      - name: Añadir repositorio
+        shell: |
+            echo "deb https://deb.nodesource.com/node_9.x bionic main" >> /etc/apt/sources.list.d/nodesource.list
+
+      - name: Añadir repositorio
+        shell: |
+            echo "deb-src https://deb.nodesource.com/node_9.x bionic main" >> /etc/apt/sources.list.d/nodesource.list
+
+      - name: Actualiza cache
+        apt:
+            update_cache: yes
+
+      - name: Instala nodejs
+        apt:
+            name: nodejs
+
+      - name: Exportar la variable de entorno
+        shell: |
+            echo "export DATABASE_URL=postgres://crm:xxxx@10.1.4.31:5432/crm" >> /etc/environment
+
+      - name: Clonar proyecto
+        git:
+            repo: https://github.com/CORE-UPM/CRM_2017
+            dest: /root/CRM_2017
+
+      - name: Crear carpeta de almacenamiento
+        file:
+            path: /root/CRM_2017/public/uploads
+            state: directory
+
+      - name: Montar la carpeta
+        mount:
+            path: /root/CRM_2017/public/uploads
+            src: 10.1.4.21:/nas
+            fstype: glusterfs
+            state: mounted
+
+      - name: Instalar dependencias
+        command: chdir=/root/CRM_2017 npm install
+
+      - name: Instalar forever
+        command: chdir=/root/CRM_2017 npm install forever
+
+      - name: Aplicar las migraciones
+        command: chdir=/root/CRM_2017 npm run-script migrate_local
+
+      - name: Ejecutar los seeders
+        command: chdir=/root/CRM_2017 npm run-script seed_local
+
+      - name: Lanzar la aplicación
+        command: chdir=/root/CRM_2017 ./node_modules/forever/bin/forever start ./bin/www

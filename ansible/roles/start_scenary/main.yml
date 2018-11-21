@@ -1,0 +1,30 @@
+---
+- hosts: vnxlab
+  connection: local
+  become: yes
+  become_method: sudo
+  become_user: upm
+
+  tasks:
+      - name: Descargar archivo
+        get_url:
+            url: http://idefix.dit.upm.es/download/cdps/pfinal/pfinal.tgz
+            dest: /home/upm/pfinal.tgz
+
+      - name: Descomprimir archivo
+        unarchive:
+            src: /home/upm/pfinal.tgz
+            dest: /home/upm
+            remote_src: yes
+        become: yes
+        become_user: root
+
+      - name: Arrancar el escenario
+        command: /home/upm/pfinal/bin/prepare-pfinal-vm
+        become: yes
+        become_user: root
+
+      - name: Crear el escenario
+        command: vnx -f /home/upm/pfinal/pfinal.xml --create
+        become: yes
+        become_user: root
