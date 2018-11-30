@@ -30,7 +30,7 @@
       - name: Exportar la variable de entorno
         shell: |
             echo "export DATABASE_URL=postgres://crm:xxxx@10.1.4.31:5432/crm" >> /etc/environment
-
+      
       - name: Clonar proyecto
         git:
             repo: https://github.com/CORE-UPM/CRM_2017

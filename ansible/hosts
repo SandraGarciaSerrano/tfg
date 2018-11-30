@@ -45,14 +45,26 @@ localhost ansible_host=127.0.0.1
 vnxlab ansible_host=127.0.1.1
 c1 ansible_host=10.250.0.2
 c2 ansible_host=10.250.0.6
-fw ansible_host=10.250.0.10
-lb ansible_host=10.250.0.14
-bbdd ansible_host=10.250.0.30
-s1 ansible_host=10.250.0.18
-s2 ansible_host=10.250.0.22
-s3 ansible_host=10.250.0.26
-nas1 ansible_host=10.250.0.34
-nas2 ansible_host=10.250.0.38
-nas3 ansible_host=10.250.0.42
+dns ansible_host=10.250.0.10
+r   ansible_host=10.250.0.14
+#fw ansible_host=10.250.0.10
+#lb ansible_host=10.250.0.14
+#bbdd ansible_host=10.250.0.30
+#s1 ansible_host=10.250.0.18
+#s2 ansible_host=10.250.0.22
+#s3 ansible_host=10.250.0.26
+#nas1 ansible_host=10.250.0.34
+#nas2 ansible_host=10.250.0.38
+#nas3 ansible_host=10.250.0.42
 
+
+fw ansible_host=10.250.0.22
+lb ansible_host=10.250.0.26
+bbdd ansible_host=10.250.0.42
+s1 ansible_host=10.250.0.30
+s2 ansible_host=10.250.0.34
+s3 ansible_host=10.250.0.38
+nas1 ansible_host=10.250.0.46
+nas2 ansible_host=10.250.0.50
+nas3 ansible_host=10.250.0.54
 
