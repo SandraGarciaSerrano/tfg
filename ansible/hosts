@@ -40,31 +40,33 @@
 # Here's another example of host ranges, this time there are no
 # leading 0s:
 
-## db-[99:101]-node.example.com
+## Clients Scenary
 localhost ansible_host=127.0.0.1
 vnxlab ansible_host=127.0.1.1
 c1 ansible_host=10.250.0.2
 c2 ansible_host=10.250.0.6
 dns ansible_host=10.250.0.10
-r   ansible_host=10.250.0.14
-#fw ansible_host=10.250.0.10
-#lb ansible_host=10.250.0.14
-#bbdd ansible_host=10.250.0.30
-#s1 ansible_host=10.250.0.18
-#s2 ansible_host=10.250.0.22
-#s3 ansible_host=10.250.0.26
-#nas1 ansible_host=10.250.0.34
-#nas2 ansible_host=10.250.0.38
-#nas3 ansible_host=10.250.0.42
+r ansible_host=10.250.0.14
 
+# CPD1
+fw1 ansible_host=10.250.0.22
+lb1 ansible_host=10.250.0.26
+s1-1 ansible_host=10.250.0.30
+s2-1 ansible_host=10.250.0.34
+s3-1 ansible_host=10.250.0.38
+bbdd1 ansible_host=10.250.0.42
+nas1-1 ansible_host=10.250.0.46
+nas2-1 ansible_host=10.250.0.50
+nas3-1 ansible_host=10.250.0.54
 
-fw ansible_host=10.250.0.22
-lb ansible_host=10.250.0.26
-bbdd ansible_host=10.250.0.42
-s1 ansible_host=10.250.0.30
-s2 ansible_host=10.250.0.34
-s3 ansible_host=10.250.0.38
-nas1 ansible_host=10.250.0.46
-nas2 ansible_host=10.250.0.50
-nas3 ansible_host=10.250.0.54
+#CDP2
+fw2 ansible_host=10.250.0.102
+lb2 ansible_host=10.250.0.106
+s1-2 ansible_host=10.250.0.110
+s2-2 ansible_host=10.250.0.114
+s3-2 ansible_host=10.250.0.118
+bbdd2 ansible_host=10.250.0.122
+nas1-2 ansible_host=10.250.0.126
+nas2-2 ansible_host=10.250.0.130
+nas3-2 ansible_host=10.250.0.134
 
