@@ -1,0 +1,3 @@
+- name: Ejecutar archivo
+  command: ansible-playbook /etc/ansible/roles/crm_conf_CPD2/main.yml
+  tags: config_crm_CPD2

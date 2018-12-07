@@ -1,5 +1,5 @@
 ---
-- hosts: s2, s3
+- hosts: s2-1, s3-1
   become: yes
 
   tasks:

@@ -1,0 +1,51 @@
+---
+- name: Actualiza cache
+  apt:
+      update_cache: yes
+  tags: config_dns
+
+- name: Instala Bind9
+  apt:
+      name: bind9
+  tags: config_dns
+
+- name: Instala dnsutils
+  apt:
+      name: dnsutils
+  tags: config_dns
+
+- name: Configuración Servidor Bind DNS
+  copy: src=/etc/ansible/roles/dns_conf/files/ dest=/etc/bind/ owner=root group=root mode=664
+  tags: config_dns
+
+- name: Deshabilitar IPv6
+  copy: src=/etc/ansible/roles/dns_conf/bind9 dest=/etc/default/ owner=root group=root mode=644
+  tags: config_dns
+
+- name: Parar servicio resolv
+  service:
+      name: systemd-resolved
+      state: stopped
+  tags: config_dns
+
+- name: Cambiar archivo resolv.conf
+  copy: src=/etc/ansible/roles/dns_conf/resolv.conf dest=/etc/ owner=root group=root mode=777
+  tags: config_dns
+
+- name: Reiniciar el servicio Bind9
+  service:
+      name: bind9
+      state: restarted
+  tags: config_dns
+
+- name: Recargar el servicio Bind9
+  service:
+      name: bind9
+      state: reloaded
+  tags: config_dns
+
+- name: Iniciar el servicio Bind9
+  service:
+      name: bind9
+      state: started
+  tags: config_dns

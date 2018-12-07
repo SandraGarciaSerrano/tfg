@@ -1,6 +1,6 @@
 ---
-- hosts: s1-1
-  become: true
+- hosts: s2-2, s3-2
+  become: yes
 
   tasks:
       - name: Actualiza cache
@@ -29,8 +29,8 @@
 
       - name: Exportar la variable de entorno
         shell: |
-            echo "export DATABASE_URL=postgres://crm:xxxx@10.1.4.31:5432/crm" >> /etc/environment
-      
+            echo "export DATABASE_URL=postgres://crm:xxxx@10.2.4.31:5432/crm" >> /etc/environment
+
       - name: Clonar proyecto
         git:
             repo: https://github.com/CORE-UPM/CRM_2017
@@ -44,7 +44,7 @@
       - name: Montar la carpeta
         mount:
             path: /root/CRM_2017/public/uploads
-            src: 10.1.4.21:/nas
+            src: 10.2.4.21:/nas
             fstype: glusterfs
             state: mounted
 
@@ -53,12 +53,6 @@
 
       - name: Instalar forever
         command: chdir=/root/CRM_2017 npm install forever
-
-      - name: Aplicar las migraciones
-        command: chdir=/root/CRM_2017 npm run-script migrate_local
-
-      - name: Ejecutar los seeders
-        command: chdir=/root/CRM_2017 npm run-script seed_local
 
       - name: Lanzar la aplicación
         command: chdir=/root/CRM_2017 ./node_modules/forever/bin/forever start ./bin/www

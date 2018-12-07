@@ -1,27 +1,102 @@
 ---
-- name: Descargar archivo
-  get_url:
-      url: http://idefix.dit.upm.es/download/cdps/pfinal/pfinal.tgz
-      dest: /home/upm/pfinal.tgz
+#- name: Descargar archivo
+#  get_url:
+#      url: http://idefix.dit.upm.es/download/cdps/pfinal/pfinal.tgz
+#      dest: /home/upm/pfinal.tgz
+#  tags: config_sce
+
+#- name: Descomprimir archivo
+#  unarchive:
+#      src: /home/upm/pfinal.tgz
+#      dest: /home/upm
+#      remote_src: yes
+#  become: yes
+#  become_user: root
+#  tags: config_sce
+
+#- name: Crear directorio clientes
+#  file:
+#      path: /home/upm/pfinalCLI
+#      state: directory
+#      mode: 0755
+#  tags: config_sce
+
+#- name: Cambiar el nombre a la carpeta
+#  command: cp -r /home/upm/pfinal/. /home/upm/pfinalCLI/.
+#  tags: config_sce
+
+#- name: Cambia el archivo xml para montarlo
+#  copy: src=/etc/ansible/roles/start_scenary/files/CLI/pfinalCLI.xml dest=/home/upm/pfinalCLI/ owner=root group=root mode=644
+#  tags: config_sce
+
+#- name: Cambia el archivo de configuracion de ips
+#  copy: src=/etc/ansible/roles/start_scenary/files/CLI/hosts dest=/home/upm/pfinalCLI/conf/ owner=root group=root mode=644
+#  tags: config_sce
+
+#- name: Crear el escenario
+#  command: vnx -f /home/upm/pfinalCLI/pfinalCLI.xml --create
+#  become: yes
+#  become_user: root
+#  tags: config_sce
+
+#- name: Crear directorio CPD1
+#  file:
+#      path: /home/upm/pfinalCPD1
+#      state: directory
+#      mode: 0755
+#  tags: config_sce
+
+#- name: Cambiar el nombre a la carpeta
+#  command: cp -r /home/upm/pfinal/. /home/upm/pfinalCPD1/.
+#  tags: config_sce
+
+#- name: Cambia el archivo xml para montarlo
+#  copy: src=/etc/ansible/roles/start_scenary/files/CPD1/pfinalCPD1.xml dest=/home/upm/pfinalCPD1/ owner=root group=root mode=644
+#  tags: config_sce
+
+#- name: Cambia el archivo de configuracion de ips
+#  copy: src=/etc/ansible/roles/start_scenary/files/CPD1/hosts dest=/home/upm/pfinalCPD1/conf/ owner=root group=root mode=644
+#  tags: config_sce
+
+#- name: Arrancar el escenario
+#  command: /home/upm/pfinalCPD1/bin/prepare-pfinal-vm
+#  become: yes
+#  become_user: root
+#  tags: config_sce
+
+#- name: Crear el escenario
+#  command: vnx -f /home/upm/pfinalCPD1/pfinalCPD1.xml --create
+#  become: yes
+#  become_user: root
+#  tags: config_sce
+
+- name: Crear directorio CPD2
+  file:
+      path: /home/upm/pfinalCPD2
+      state: directory
+      mode: 0755
   tags: config_sce
 
-- name: Descomprimir archivo
-  unarchive:
-      src: /home/upm/pfinal.tgz
-      dest: /home/upm
-      remote_src: yes
-  become: yes
-  become_user: root
+- name: Cambiar el nombre a la carpeta
+  command: cp -r /home/upm/pfinal/. /home/upm/pfinalCPD2/.
+  tags: config_sce
+
+- name: Cambia el archivo xml para montarlo
+  copy: src=/etc/ansible/roles/start_scenary/files/CPD2/pfinalCPD2.xml dest=/home/upm/pfinalCPD2/ owner=root group=root mode=644
+  tags: config_sce
+
+- name: Cambia el archivo de configuracion de ips
+  copy: src=/etc/ansible/roles/start_scenary/files/CPD2/hosts dest=/home/upm/pfinalCPD2/conf/ owner=root group=root mode=644
   tags: config_sce
 
 - name: Arrancar el escenario
-  command: /home/upm/pfinal/bin/prepare-pfinal-vm
+  command: /home/upm/pfinalCPD2/bin/prepare-pfinal-vm
   become: yes
   become_user: root
   tags: config_sce
 
 - name: Crear el escenario
-  command: vnx -f /home/upm/pfinal/pfinal.xml --create
+  command: vnx -f /home/upm/pfinalCPD2/pfinalCPD2.xml --create
   become: yes
   become_user: root
   tags: config_sce

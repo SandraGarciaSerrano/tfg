@@ -1,0 +1,29 @@
+---
+- name: Actualiza cache
+  apt:
+      update_cache: yes
+  tags: config_client
+
+- name: Instala dnsutils
+  apt:
+      name: dnsutils
+  tags: config_client
+
+- name: Instala navegador arora
+  apt:
+      name: arora
+  tags: config_client
+
+  #- name: Abrir navegador arora
+  #command: /root/arora 
+  #tags: config_client
+
+- name: Parar servicio resolv
+  service:
+      name: systemd-resolved
+      state: stopped
+  tags: config_client
+
+- name: Cambiar archivo resolv.conf
+  copy: src=/etc/ansible/roles/clients_conf/files/resolv.conf dest=/etc/. owner=root group=root mode=777
+  tags: config_client

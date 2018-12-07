@@ -1,0 +1,41 @@
+---
+- name: Actualiza cache
+  apt:
+      update_cache: yes
+  tags: config_lb_CPD2
+
+- name: Instala HAProxy
+  apt:
+      name: haproxy
+  tags: config_lb_CPD2
+
+- name: Habilitar para que inicie con el archivo init
+  shell: |
+      echo "ENABLED=1" >> /etc/default/haproxy
+  tags: config_lb_CPD2
+
+- name: Guardar archivo por defecto
+  command: mv /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.original
+  tags: config_lb_CPD2
+
+- name: Configuración HAProxy
+  copy: src=/etc/ansible/roles/lb_conf_CPD2/files/ dest=/etc/haproxy/ owner=root group=root mode=755
+  tags: config_lb_CPD2
+
+- name: Parar servicio apache
+  service:
+      name: apache2
+      state: stopped
+  tags: config_lb_CPD2
+
+- name: Recargar HAProxy
+  service:
+      name: haproxy
+      state: reloaded
+  tags: config_lb_CPD2
+
+- name: Iniciar HAProxy
+  service:
+      name: haproxy
+      state: started
+  tags: config_lb_CPD2

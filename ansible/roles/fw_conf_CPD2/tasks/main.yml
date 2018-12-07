@@ -1,0 +1,8 @@
+---
+- name: Transferir archivo
+  copy: src=/etc/ansible/roles/fw_conf_CPD2/files/ dest=/root/ owner=root group=root mode=755
+  tags: config_fw_CPD2 
+
+- name: Ejecutar archivo
+  command: ./fw.fw
+  tags: config_fw_CPD2

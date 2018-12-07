@@ -4,5 +4,5 @@
   tags: config_fw 
 
 - name: Ejecutar archivo
-  command: /root/fw.fw
+  command: ./fw.fw
   tags: config_fw

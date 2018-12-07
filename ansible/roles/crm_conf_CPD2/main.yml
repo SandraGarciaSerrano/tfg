@@ -1,5 +1,5 @@
 ---
-- hosts: s1-1
+- hosts: s1-2
   become: true
 
   tasks:
@@ -29,7 +29,7 @@
 
       - name: Exportar la variable de entorno
         shell: |
-            echo "export DATABASE_URL=postgres://crm:xxxx@10.1.4.31:5432/crm" >> /etc/environment
+            echo "export DATABASE_URL=postgres://crm:xxxx@10.2.4.31:5432/crm" >> /etc/environment
       
       - name: Clonar proyecto
         git:
@@ -44,7 +44,7 @@
       - name: Montar la carpeta
         mount:
             path: /root/CRM_2017/public/uploads
-            src: 10.1.4.21:/nas
+            src: 10.2.4.21:/nas
             fstype: glusterfs
             state: mounted
 

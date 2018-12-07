@@ -4,7 +4,7 @@
 #
 #  Firewall Builder  fwb_ipt v5.3.7
 #
-#  Generated Fri Dec  7 15:42:45 2018 UTC by root
+#  Generated Fri Dec  7 15:33:03 2018 UTC by root
 #
 # files: * fw.fw /etc/fw.fw
 #
@@ -316,9 +316,9 @@ run_epilog_and_exit() {
 configure_interfaces() {
     :
     # Configure interfaces
-    update_addresses_of_interface "eth0 10.250.0.22/30" ""
-    update_addresses_of_interface "eth1 10.1.1.1/24" ""
-    update_addresses_of_interface "eth2 10.1.2.1/24" ""
+    update_addresses_of_interface "eth0 10.250.0.102/30" ""
+    update_addresses_of_interface "eth1 10.2.1.1/24" ""
+    update_addresses_of_interface "eth2 10.2.2.1/24" ""
     update_addresses_of_interface "lo 127.0.0.1/8" ""
 }
 
@@ -339,9 +339,9 @@ script_body() {
     # 
     echo "Rule 0 (NAT)"
     # 
-    $IPTABLES -t nat -A POSTROUTING -o eth1   -s 10.1.3.0/24  -j SNAT --to-source 10.1.1.1
-    $IPTABLES -t nat -A POSTROUTING -o eth2   -s 10.1.3.0/24  -j SNAT --to-source 10.1.2.1
-    $IPTABLES -t nat -A POSTROUTING -o eth0   -s 10.1.3.0/24  -j SNAT --to-source 10.250.0.22
+    $IPTABLES -t nat -A POSTROUTING -o eth1   -s 10.2.3.0/24  -j SNAT --to-source 10.2.1.1
+    $IPTABLES -t nat -A POSTROUTING -o eth2   -s 10.2.3.0/24  -j SNAT --to-source 10.2.2.1
+    $IPTABLES -t nat -A POSTROUTING -o eth0   -s 10.2.3.0/24  -j SNAT --to-source 10.250.0.102
 
 
 
@@ -353,8 +353,8 @@ script_body() {
     # 
     # Permite acceso al servidor web de lb
     $IPTABLES -N RULE_0
-    $IPTABLES -A OUTPUT -p tcp -m tcp  -d 10.1.2.2   --dport 80  -m conntrack --ctstate NEW  -j RULE_0
-    $IPTABLES -A FORWARD -p tcp -m tcp  -d 10.1.2.2   --dport 80  -m conntrack --ctstate NEW  -j RULE_0
+    $IPTABLES -A OUTPUT -p tcp -m tcp  -d 10.2.2.2   --dport 80  -m conntrack --ctstate NEW  -j RULE_0
+    $IPTABLES -A FORWARD -p tcp -m tcp  -d 10.2.2.2   --dport 80  -m conntrack --ctstate NEW  -j RULE_0
     $IPTABLES -A RULE_0  -j LOG  --log-level info --log-prefix "RULE 0 -- ACCEPT "
     $IPTABLES -A RULE_0  -j ACCEPT
     # 
@@ -379,31 +379,31 @@ script_body() {
     $IPTABLES -A INPUT -p tcp -m tcp  --dport 6000:6063  -m conntrack --ctstate NEW  -j Cid2208X5996.0
     $IPTABLES -A INPUT -p tcp -m tcp  --dport 22  -m conntrack --ctstate NEW  -j Cid2208X5996.0
     $IPTABLES -N Cid2208X5996.1
-    $IPTABLES -A Cid2208X5996.0  -s 10.1.1.1   -j Cid2208X5996.1
-    $IPTABLES -A Cid2208X5996.0  -s 10.1.2.1   -j Cid2208X5996.1
-    $IPTABLES -A Cid2208X5996.0  -s 10.250.0.22   -j Cid2208X5996.1
+    $IPTABLES -A Cid2208X5996.0  -s 10.2.1.1   -j Cid2208X5996.1
+    $IPTABLES -A Cid2208X5996.0  -s 10.2.2.1   -j Cid2208X5996.1
+    $IPTABLES -A Cid2208X5996.0  -s 10.250.0.102   -j Cid2208X5996.1
     $IPTABLES -A Cid2208X5996.0  -s 127.0.0.1   -j Cid2208X5996.1
     $IPTABLES -N RULE_2
-    $IPTABLES -A Cid2208X5996.1  -d 10.1.1.1   -j RULE_2
-    $IPTABLES -A Cid2208X5996.1  -d 10.1.2.1   -j RULE_2
-    $IPTABLES -A Cid2208X5996.1  -d 10.250.0.22   -j RULE_2
+    $IPTABLES -A Cid2208X5996.1  -d 10.2.1.1   -j RULE_2
+    $IPTABLES -A Cid2208X5996.1  -d 10.2.2.1   -j RULE_2
+    $IPTABLES -A Cid2208X5996.1  -d 10.250.0.102   -j RULE_2
     $IPTABLES -A Cid2208X5996.1  -d 127.0.0.1   -j RULE_2
     $IPTABLES -N Cid2208X5996.2
     $IPTABLES -A OUTPUT -p tcp -m tcp  --dport 6000:6063  -m conntrack --ctstate NEW  -j Cid2208X5996.2
     $IPTABLES -A OUTPUT -p tcp -m tcp  --dport 22  -m conntrack --ctstate NEW  -j Cid2208X5996.2
     $IPTABLES -N Cid2208X5996.3
-    $IPTABLES -A Cid2208X5996.2  -s 10.1.1.1   -j Cid2208X5996.3
-    $IPTABLES -A Cid2208X5996.2  -s 10.1.2.1   -j Cid2208X5996.3
-    $IPTABLES -A Cid2208X5996.2  -s 10.250.0.22   -j Cid2208X5996.3
+    $IPTABLES -A Cid2208X5996.2  -s 10.2.1.1   -j Cid2208X5996.3
+    $IPTABLES -A Cid2208X5996.2  -s 10.2.2.1   -j Cid2208X5996.3
+    $IPTABLES -A Cid2208X5996.2  -s 10.250.0.102   -j Cid2208X5996.3
     $IPTABLES -A Cid2208X5996.2  -s 127.0.0.1   -j Cid2208X5996.3
-    $IPTABLES -A Cid2208X5996.3  -d 10.1.1.1   -j RULE_2
-    $IPTABLES -A Cid2208X5996.3  -d 10.1.2.1   -j RULE_2
-    $IPTABLES -A Cid2208X5996.3  -d 10.250.0.22   -j RULE_2
+    $IPTABLES -A Cid2208X5996.3  -d 10.2.1.1   -j RULE_2
+    $IPTABLES -A Cid2208X5996.3  -d 10.2.2.1   -j RULE_2
+    $IPTABLES -A Cid2208X5996.3  -d 10.250.0.102   -j RULE_2
     $IPTABLES -A Cid2208X5996.3  -d 127.0.0.1   -j RULE_2
     $IPTABLES -N Cid2208X5996.4
     $IPTABLES -A INPUT -p tcp -m tcp  --dport 6000:6063  -m conntrack --ctstate NEW  -j Cid2208X5996.4
     $IPTABLES -A INPUT -p tcp -m tcp  --dport 22  -m conntrack --ctstate NEW  -j Cid2208X5996.4
-    $IPTABLES -A Cid2208X5996.4  -s 10.1.3.0/24   -j RULE_2
+    $IPTABLES -A Cid2208X5996.4  -s 10.2.3.0/24   -j RULE_2
     $IPTABLES -A Cid2208X5996.4  -s 10.250.0.0/24   -j RULE_2
     $IPTABLES -A RULE_2  -j LOG  --log-level info --log-prefix "RULE 2 -- ACCEPT "
     $IPTABLES -A RULE_2  -j ACCEPT
@@ -414,9 +414,9 @@ script_body() {
     # 
     # Permite el acceso desde el fw a cualquier otro sistema
     $IPTABLES -N RULE_3
-    $IPTABLES -A INPUT  -s 10.1.1.1   -m conntrack --ctstate NEW  -j RULE_3
-    $IPTABLES -A INPUT  -s 10.1.2.1   -m conntrack --ctstate NEW  -j RULE_3
-    $IPTABLES -A INPUT  -s 10.250.0.22   -m conntrack --ctstate NEW  -j RULE_3
+    $IPTABLES -A INPUT  -s 10.2.1.1   -m conntrack --ctstate NEW  -j RULE_3
+    $IPTABLES -A INPUT  -s 10.2.2.1   -m conntrack --ctstate NEW  -j RULE_3
+    $IPTABLES -A INPUT  -s 10.250.0.102   -m conntrack --ctstate NEW  -j RULE_3
     $IPTABLES -A OUTPUT  -m conntrack --ctstate NEW  -j RULE_3
     $IPTABLES -A RULE_3  -j LOG  --log-level info --log-prefix "RULE 3 -- ACCEPT "
     $IPTABLES -A RULE_3  -j ACCEPT
@@ -427,8 +427,8 @@ script_body() {
     # 
     # Permite el acceso desde la red interna a la DMZ por ssh y http
     $IPTABLES -N RULE_4
-    $IPTABLES -A INPUT -p tcp -m tcp  -m multiport  -s 10.1.3.0/24   --dports 80,22  -m conntrack --ctstate NEW  -j RULE_4
-    $IPTABLES -A FORWARD -p tcp -m tcp  -m multiport  -s 10.1.3.0/24   --dports 80,22  -m conntrack --ctstate NEW  -j RULE_4
+    $IPTABLES -A INPUT -p tcp -m tcp  -m multiport  -s 10.2.3.0/24   --dports 80,22  -m conntrack --ctstate NEW  -j RULE_4
+    $IPTABLES -A FORWARD -p tcp -m tcp  -m multiport  -s 10.2.3.0/24   --dports 80,22  -m conntrack --ctstate NEW  -j RULE_4
     $IPTABLES -A RULE_4  -j LOG  --log-level info --log-prefix "RULE 4 -- ACCEPT "
     $IPTABLES -A RULE_4  -j ACCEPT
     # 
@@ -498,7 +498,7 @@ test -z "$cmd" && {
 
 case "$cmd" in
     start)
-        log "Activating firewall script generated Fri Dec  7 15:42:45 2018 by root"
+        log "Activating firewall script generated Fri Dec  7 15:33:03 2018 by root"
         check_tools
          prolog_commands 
         check_run_time_address_table_files
